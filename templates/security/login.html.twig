@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in Zeiterfassung{% endblock %}
+
+{% block body %}
+<form method="post" class="login-form">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+    <h2>Willkommen zur internen Zeiterfassung</h2>
+    <h3 class="h3 mb-3 font-weight-normal">Bitte loggen Sie sich ein oder erstellen Sie einen neuen Account über den Button "registrieren"</h3>
+    <label for="inputEmail">Email</label>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+    <label for="inputPassword">Password</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+    <button class="btn btn-lg btn-primary" type="submit">
+        Anmelden
+    </button>
+    <a class="register-button" href="{{ path('app_register') }}">Registrieren</a>
+</form>
+{% endblock %}

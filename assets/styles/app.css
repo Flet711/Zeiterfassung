@@ -1,0 +1,91 @@
+body {
+    background-color: lightgray;
+}
+
+.login-form {
+    background: white;
+    width: 770px;
+    padding: 80px;
+    position: absolute;
+    left: 100px;
+    top: 100px;
+}
+.header {
+    margin-left: 75px;
+}
+.main {
+    width: 100%;
+}
+.enddate-explanation {
+    padding: 0 6px 0 6px;
+    background-color: grey;
+    border-radius: 15px;
+}
+
+.register-button {
+    background: #e9e9ed;
+    padding: 3px;
+    border-radius: 4px;
+    border: 1px solid #8f8f9d;
+    font-size: 14px;
+}
+.new-logging-wrapper {
+    float: left;
+    margin-left: 75px;
+    width: 900px;
+    border: 1px solid black;
+    padding: 50px;
+}
+.right-side-main {
+    float: left;
+    width: 600px;
+}
+.open-loggings {
+    width: 660px;
+    text-align: center;
+}
+.time-logging{
+    border-bottom: 1px solid grey;
+    padding-bottom: 10px;
+}
+.logging-table {
+    width: 100%;
+    text-align: left;
+}
+.logging-table td {
+    max-width: 230px;
+}
+.work-overview-wrapper {
+    margin-left: 75px;
+    border: 1px solid black;
+    padding: 50px;
+    margin-top: 20px;
+}
+
+.daily-report-table {
+    text-align: center;
+    width: 300px;
+}
+
+.new-project-wrapper {
+    margin-left: 75px;
+    border: 1px solid black;
+    padding: 50px;
+}
+
+.export-div {
+    margin-top: 20px;
+}
+
+.export-csv-button {
+    background: white;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    border: 1px solid gray;
+}
+.logout-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}

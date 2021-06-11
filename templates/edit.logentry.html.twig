@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+    {% block center %}
+        <div class="popup">
+            <div class="popup-content">
+                <h2>Eintrag ändern</h2>
+                <span>Hier haben Sie die Möglichkeit einen bestehenden Eintrag nachträglich zu ändern.</span>
+                <form action="{{ path('_edit_log_entry') }}" method="post">
+                    <input type="hidden" name="id" value="{{ logentry.id }}">
+                    <div>
+                        <label for="change-project">Projekt ändern</label>
+                        <select name="changeproject" id="change-project" required>
+                            <option selected disabled
+                                    value="{{ logentry.projectid }}">{{ logentry.projectname }}</option>
+                            {% for project in projectList %}
+                                <option value="{{ project.id }}">{{ project.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <span>Startdatum und Zeit ändern</span>
+                        {# <label for="change-date">Startdatum ändern</label> #}
+                        <input type="date" name="startdate" required
+                               value="{{ logentry.startdate|date('Y-m-d') }}">
+                        {# <label for="change-start-date">Startzeit ändern</label> #}
+                        <input step="1" type="time" name="starttime" required
+                               value="{{ logentry.startdate|date('H:i:s') }}">
+                    </div>
+                    {% if logentry.statecode == 0 %}
+                        <div>
+                            <span>Enddatum und Zeit ändern</span>
+                            {# <label for="change-date">Startdatum ändern</label> #}
+                            <input type="date" name="enddate" required
+                                   value="{{ logentry.enddate|date('Y-m-d') }}">
+                            {# <label for="change-start-date">Startzeit ändern</label> #}
+                            <input step="1" type="time" name="endtime" required
+                                   value="{{ logentry.enddate|date('H:i:s') }}">
+                            <input type="checkbox" value="1" name="deleteenddate">Ende widerrufen
+                            <span class="enddate-explanation"
+                                  title="Hinweis: Durch setzten der Checkbox wird das Enddatum des Eintrages gelöscht und der Eintrag gilt wieder als aktiv">i</span>
+                        </div>
+                    {% endif %}
+                    <input type="submit" value="Eintrag ändern">
+                </form>
+            </div>
+        </div>
+    {% endblock %}

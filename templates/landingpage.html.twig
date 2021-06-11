@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+    {% block center %}
+        <h1 class="header">Willkommen zur Zeiterfassung</h1>
+        <div class="main">
+            <div class="new-logging-wrapper">
+                <h2>Hier können neue Zeiten gebucht werden</h2>
+                <div class="time-logging">
+                    <h3>Neue Zeit erfassen</h3>
+                    {{ form_start(form) }}
+                    {{ form_end(form) }}
+                </div>
+                <div>
+                    <h3>Übersicht über bisherige Zeiterfassungen</h3>
+                    {% if errormsg != null %}
+                        {{ errormsg }}
+                    {% endif %}
+                    <table class="logging-table">
+                        <tr>
+                            <th>Projekt</th>
+                            <th>Startzeitpunkt</th>
+                            <th>Endzeitpunkt</th>
+                            <th>Zeit stoppen</th>
+                            <th>Eintrag ändern</th>
+                            <th>Eintrag löschen</th>
+                        </tr>
+                        {% for logtime in timelogs %}
+                            <tr>
+                                <td>{{ logtime.project }}</td>
+                                <td>{{ logtime.startdate }}</td>
+                                <td>{{ logtime.enddate }}</td>
+                                {% if logtime.statecode == 1 %}
+                                    <td><a href="{{ path('_stop_logging', {'logid':  logtime.logid}) }}">Logging
+                                            beenden</a>
+                                    </td>
+                                {% else %}
+                                    <td>bereits gestoppt</td>
+                                {% endif %}
+                                <td><a href="{{ path('_edit_log_entry', {'logid': logtime.logid}) }}">Eintrag ändern</a>
+                                </td>
+                                <td><a href="{{ path('_delete_log_entry', {'logid': logtime.logid}) }}">Eintrag
+                                        löschen</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="right-side-main">
+                <div class="new-project-wrapper">
+                    <h2>Hier können neue Projekte angelegt werden</h2>
+                    <h3>Anschließend können diese Projekte zum Zeiten buchen genutzt werden</h3>
+                    {{ form_start(projectForm) }}
+                    {{ form_end(projectForm) }}
+                </div>
+                <div class="work-overview-wrapper">
+                    <h2>Übersicht über Ihre Leistungen</h2>
+                    <h3>Diese Übersicht dient dazu eine Übersicht über Ihre Projekte und die dafür benötigte Zeit zu
+                        geben</h3>
+                    <div>
+                        <h4>Heutige Leistungen (in Stunden):</h4>
+                        <table class="daily-report-table">
+                            <tr>
+                                <th>Projekt</th>
+                                <th>Hinterlegte Zeit</th>
+                            </tr>
+                            {% for entry in dailyreport %}
+                                <tr>
+                                    <td>{{ entry.projectname }}</td>
+                                    <td>{{ entry.timelogged }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="export-div">
+                        <a class="export-csv-button" href="{{ path('_generate_csv', {daily: 1}) }}">Daten
+                            exportieren</a>
+                    </div>
+                    <div>
+                        <h3>Leistungen diesen Monat</h3>
+                        <table class="daily-report-table">
+                            <tr>
+                                <th>Projekt</th>
+                                <th>Hinterlegte Zeit</th>
+                            </tr>
+                            {% for entry in monthlyreport %}
+                                <tr>
+                                    <td>{{ entry.projectname }}</td>
+                                    <td>{{ entry.timelogged }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    <div class="export-div">
+                        <a class="export-csv-button" href="{{ path('_generate_csv', {daily: 0}) }}">Daten
+                            exportieren</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="export-csv-button logout-button" href="{{ path('app_logout') }}">Ausloggen</a>
+    {% endblock %}
