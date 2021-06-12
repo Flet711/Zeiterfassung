@@ -69,7 +69,9 @@ class TimeLoggingController extends AbstractController
                 $logEntry->setEnddate(null);
                 $logEntry->setStatecode(1);
             } else {
-                $logEntry->setEnddate(date_create_from_format('Y-m-d H:i:s',$request->request->get('enddate') . ' ' . $request->request->get('endtime')));
+                if ($request->request->get('enddate') !== null) {
+                    $logEntry->setEnddate(date_create_from_format('Y-m-d H:i:s', $request->request->get('enddate') . ' ' . $request->request->get('endtime')));
+                }
             }
             $em->persist($logEntry);
             $em->flush();
