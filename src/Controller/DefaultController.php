@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ProjectType;
+use App\Form\TimeLoggingType;
 use App\Services\CsvService;
 use App\Services\ProjectService;
 use App\Services\TimeLoggingService;
@@ -38,64 +40,9 @@ class DefaultController extends AbstractController {
         }
         $projects = $projectService->getAllActiveProjectsAsArray();
 
-        /* Symfonyform Start - Hinfügen neues Logeintrages*/
-        $form = $this->createFormBuilder();
-        $form->add(
-            'userid',
-            HiddenType::class,
-            [
-                'data' => $user->getId()
-            ]
-        );
-        $form->add(
-            'projectid',
-            ChoiceType::class,
-            [
-                'placeholder' => 'Bitte Projekt auswählen',
-                'label' => 'Projekt wählen: ',
-                'choices' =>
-                array_combine(
-                    array_map(
-                        static function ($projects) {
-                            return $projects['name'];
-                        },
-                        $projects
-                    ),
-                    array_column($projects, 'id')
-                )
-            ]
-        );
-        $form->add(
-            'start_logging',
-            SubmitType::class,
-            ['label' => 'Logging starten']
-        );
-
-        $form->setAction($this->generateUrl('_start_logging'))
-        ->setMethod('POST');
-        $fb = $form->getForm();
-        /* Symfonyform Ende */
-
-        /* Symfonyform Anfang - Neue Projekte anlegen */
-        $formProject = $this->createFormBuilder();
-        $formProject->add(
-            'name',
-            TextType::class,
-            [
-                'required' => true,
-                'label' => 'Projektnamen eingeben: '
-            ]
-        );
-        $formProject->add(
-            'add_project',
-            SubmitType::class,
-            ['label' => 'Projekt anlegen']
-        );
-
-        $formProject->setAction($this->generateUrl('_add_project'))
-            ->setMethod('POST');
-        $fbProject = $formProject->getForm();
-        /* Ende Symfony Form */
+        /* Symfonyforms vorbereiten */
+        $form = $this->createForm(TimeLoggingType::class, ['userid' => $user->getId(), 'projects' => $projects]);
+        $formProject = $this->createForm(ProjectType::class);
 
         /* Hole alle Logs zur Übersicht aus Service */
         $logs = $loggingService->getAllActiveLogsForUser($user->getId());
@@ -106,8 +53,8 @@ class DefaultController extends AbstractController {
 
         return $this->render('landingpage.html.twig',
             [
-                'form' => $fb->createView(),
-                'projectForm' => $fbProject->createView(),
+                'form' => $form->createView(),
+                'projectForm' => $formProject->createView(),
                 'timelogs' => $logs,
                 'errormsg' => $errorMessage,
                 'projectList' => $projects,

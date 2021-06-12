@@ -17,7 +17,7 @@ class ProjectController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $params = $request->request->all();
-        $project = Project::createByName($params['form']['name']);
+        $project = Project::createByName($params['project']['name']);
         $em->persist($project);
         $em->flush();
         return $this->redirectToRoute('_home');

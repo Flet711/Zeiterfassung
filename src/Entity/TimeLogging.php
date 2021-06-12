@@ -25,9 +25,9 @@ class TimeLogging
     private $startdate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $enddate;
+    private $enddate = null;
 
     /**
      * @ORM\Column(type="string", length=36, nullable=true)

@@ -25,8 +25,8 @@ class TimeLoggingController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $logEntry = TimeLogging::createByStartdate(
             date_create('now', new DateTimeZone('Europe/Berlin')),
-            $params['form']['userid'],
-            $params['form']['projectid']
+            $params['time_logging']['userid'],
+            $params['time_logging']['projectid']
         );
         $em->persist($logEntry);
         $em->flush();
@@ -68,8 +68,7 @@ class TimeLoggingController extends AbstractController
             if ($request->request->get('deleteenddate') !== null) {
                 $logEntry->setEnddate(null);
                 $logEntry->setStatecode(1);
-            }
-            if ($request->request->get('enddate') !== null) {
+            } else {
                 $logEntry->setEnddate(date_create_from_format('Y-m-d H:i:s',$request->request->get('enddate') . ' ' . $request->request->get('endtime')));
             }
             $em->persist($logEntry);
